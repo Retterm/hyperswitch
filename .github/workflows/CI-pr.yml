@@ -99,6 +99,11 @@ jobs:
       - name: Checkout repository
         uses: actions/checkout@v4
 
+      - name: Install native Rust build dependencies
+        if: vars.RETTERM_ISOLATED_CI == '1'
+        run: |
+          sudo apt-get update
+          sudo apt-get install -y --no-install-recommends build-essential pkg-config libssl-dev libpq-dev zlib1g-dev
       - name: Install mold linker
         uses: rui314/setup-mold@v1
         if: ${{ runner.os == 'Linux' }}
@@ -212,6 +217,11 @@ jobs:
           ref: ${{ github.event.pull_request.head.ref }}
           token: ${{ steps.generate_token.outputs.token }}
 
+      - name: Install native Rust build dependencies
+        if: vars.RETTERM_ISOLATED_CI == '1'
+        run: |
+          sudo apt-get update
+          sudo apt-get install -y --no-install-recommends build-essential pkg-config libssl-dev libpq-dev zlib1g-dev
       - name: Install mold linker
         uses: rui314/setup-mold@v1
         if: ${{ runner.os == 'Linux' }}
@@ -308,6 +318,11 @@ jobs:
       - name: Checkout repository
         uses: actions/checkout@v4
 
+      - name: Install native Rust build dependencies
+        if: vars.RETTERM_ISOLATED_CI == '1'
+        run: |
+          sudo apt-get update
+          sudo apt-get install -y --no-install-recommends build-essential pkg-config libssl-dev libpq-dev zlib1g-dev
       - name: Install mold linker
         uses: rui314/setup-mold@v1
         if: ${{ runner.os == 'Linux' }}

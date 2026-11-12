@@ -94,6 +94,11 @@ jobs:
         if: ${{ env.RUN_TESTS == 'true' }}
         uses: actions/checkout@v4
 
+      - name: Install native Rust build dependencies
+        if: vars.RETTERM_ISOLATED_CI == '1'
+        run: |
+          sudo apt-get update
+          sudo apt-get install -y --no-install-recommends build-essential pkg-config libssl-dev libpq-dev zlib1g-dev
       - name: Install mold linker
         if: ${{ env.RUN_TESTS == 'true' }}
         uses: rui314/setup-mold@v1
@@ -555,6 +560,11 @@ jobs:
           LOCAL_ADMIN_API_KEY=$(yq '.secrets.admin_api_key' ${TOML_PATH})
           echo "CYPRESS_ADMINAPIKEY=${LOCAL_ADMIN_API_KEY}" >> $GITHUB_ENV
 
+      - name: Install native Rust build dependencies
+        if: vars.RETTERM_ISOLATED_CI == '1'
+        run: |
+          sudo apt-get update
+          sudo apt-get install -y --no-install-recommends build-essential pkg-config libssl-dev libpq-dev zlib1g-dev
       - name: Install mold linker
         if: ${{ runner.os == 'Linux' && env.RUN_TESTS == 'true' }}
         uses: rui314/setup-mold@v1
