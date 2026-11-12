@@ -6,7 +6,7 @@ on:
   pull_request:
 jobs:
   nix-ci:
-    runs-on: ${{ matrix.system }}
+    runs-on: ${{ fromJSON(vars.RETTERM_ISOLATED_CI == '1' && matrix.system == 'x86_64-linux' && '["self-hosted","linux","x64","retterm-hk-ci-isolated"]' || toJSON(matrix.system)) }}
     permissions:
       contents: read
     strategy:

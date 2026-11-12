@@ -25,7 +25,7 @@ jobs:
   formatter:
     name: Run formatter on Cypress tests and address lints
     if: ${{ github.event_name == 'pull_request' }}
-    runs-on: ubuntu-latest
+    runs-on: ${{ fromJSON(vars.RETTERM_ISOLATED_CI == '1' && '["self-hosted","linux","x64","retterm-hk-ci-isolated"]' || '"ubuntu-latest"') }}
     steps:
       - name: Generate a token
         if: ${{ github.event.pull_request.head.repo.full_name == github.event.pull_request.base.repo.full_name }}
@@ -83,7 +83,7 @@ jobs:
 
   build-hyperswitch:
     name: Build hyperswitch server
-    runs-on: ubuntu-latest
+    runs-on: ${{ fromJSON(vars.RETTERM_ISOLATED_CI == '1' && '["self-hosted","linux","x64","retterm-hk-ci-isolated"]' || '"ubuntu-latest"') }}
     steps:
       - name: Skip tests for PRs from forks
         shell: bash
@@ -136,7 +136,7 @@ jobs:
   runner:
     name: Run mandatory Cypress tests
     needs: build-hyperswitch
-    runs-on: ubuntu-latest
+    runs-on: ${{ fromJSON(vars.RETTERM_ISOLATED_CI == '1' && '["self-hosted","linux","x64","retterm-hk-ci-isolated"]' || '"ubuntu-latest"') }}
 
     services:
       redis:
@@ -302,7 +302,7 @@ jobs:
   runner_alpha:
     name: Run optional Cypress tests for alpha connectors
     needs: build-hyperswitch
-    runs-on: ubuntu-latest
+    runs-on: ${{ fromJSON(vars.RETTERM_ISOLATED_CI == '1' && '["self-hosted","linux","x64","retterm-hk-ci-isolated"]' || '"ubuntu-latest"') }}
 
     services:
       redis:
@@ -486,7 +486,7 @@ jobs:
 
   runner_v2:
     name: Run Cypress tests on v2 and generate coverage report
-    runs-on: hyperswitch-runners
+    runs-on: ${{ fromJSON(vars.RETTERM_ISOLATED_CI == '1' && '["self-hosted","linux","x64","retterm-hk-ci-isolated"]' || '"hyperswitch-runners"') }}
     env:
       CODECOV_FILE: "lcov.info"
 

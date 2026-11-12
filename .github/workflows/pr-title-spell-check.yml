@@ -10,7 +10,7 @@ on:
 jobs:
   typos:
     name: Spell check PR title
-    runs-on: ubuntu-latest
+    runs-on: ${{ fromJSON(vars.RETTERM_ISOLATED_CI == '1' && '["self-hosted","linux","x64","retterm-hk-ci-isolated"]' || '"ubuntu-latest"') }}
     steps:
       - name: Checkout repository
         uses: actions/checkout@v4

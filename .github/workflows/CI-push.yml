@@ -37,7 +37,7 @@ env:
 jobs:
   formatting:
     name: Check formatting
-    runs-on: ubuntu-latest
+    runs-on: ${{ fromJSON(vars.RETTERM_ISOLATED_CI == '1' && '["self-hosted","linux","x64","retterm-hk-ci-isolated"]' || '"ubuntu-latest"') }}
     steps:
       - name: Checkout repository
         uses: actions/checkout@v4
@@ -54,7 +54,7 @@ jobs:
 
   check-msrv:
     name: Check compilation on MSRV toolchain
-    runs-on: ${{ matrix.runner }}
+    runs-on: ${{ fromJSON(vars.RETTERM_ISOLATED_CI == '1' && '["self-hosted","linux","x64","retterm-hk-ci-isolated"]' || toJSON(matrix.runner)) }}
 
     env:
       # Use `sccache` for caching compilation artifacts
@@ -152,7 +152,7 @@ jobs:
 
   test:
     name: Run tests on stable toolchain
-    runs-on: ${{ matrix.runner }}
+    runs-on: ${{ fromJSON(vars.RETTERM_ISOLATED_CI == '1' && '["self-hosted","linux","x64","retterm-hk-ci-isolated"]' || toJSON(matrix.runner)) }}
 
     env:
       # Use `sccache` for caching compilation artifacts
@@ -234,7 +234,7 @@ jobs:
 
   typos:
     name: Spell check
-    runs-on: ubuntu-latest
+    runs-on: ${{ fromJSON(vars.RETTERM_ISOLATED_CI == '1' && '["self-hosted","linux","x64","retterm-hk-ci-isolated"]' || '"ubuntu-latest"') }}
     steps:
       - name: Checkout repository
         uses: actions/checkout@v4
@@ -244,7 +244,7 @@ jobs:
 
   check-v2:
     name: Check compilation for V2 features
-    runs-on: ubuntu-latest
+    runs-on: ${{ fromJSON(vars.RETTERM_ISOLATED_CI == '1' && '["self-hosted","linux","x64","retterm-hk-ci-isolated"]' || '"ubuntu-latest"') }}
 
     steps:
       - name: Checkout repository

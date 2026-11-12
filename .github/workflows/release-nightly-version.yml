@@ -24,7 +24,7 @@ env:
 jobs:
   update-postman-collections:
     name: Update Postman collection JSON files
-    runs-on: ubuntu-latest
+    runs-on: ${{ fromJSON(vars.RETTERM_ISOLATED_CI == '1' && '["self-hosted","linux","x64","retterm-hk-ci-isolated"]' || '"ubuntu-latest"') }}
 
     steps:
       - name: Checkout repository

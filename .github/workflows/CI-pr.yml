@@ -31,7 +31,7 @@ env:
 jobs:
   formatting:
     name: Check formatting
-    runs-on: ubuntu-latest
+    runs-on: ${{ fromJSON(vars.RETTERM_ISOLATED_CI == '1' && '["self-hosted","linux","x64","retterm-hk-ci-isolated"]' || '"ubuntu-latest"') }}
     steps:
       - name: Generate a token
         if: ${{ github.event.pull_request.head.repo.full_name == github.event.pull_request.base.repo.full_name }}
@@ -80,7 +80,7 @@ jobs:
 
   check-msrv:
     name: Check compilation on MSRV toolchain
-    runs-on: ${{ matrix.runner }}
+    runs-on: ${{ fromJSON(vars.RETTERM_ISOLATED_CI == '1' && '["self-hosted","linux","x64","retterm-hk-ci-isolated"]' || toJSON(matrix.runner)) }}
     if: ${{ ! startsWith(github.event.pull_request.base.ref, 'hotfix-') }}
 
     env:
@@ -177,7 +177,7 @@ jobs:
 
   test:
     name: Run tests on stable toolchain
-    runs-on: ${{ matrix.runner }}
+    runs-on: ${{ fromJSON(vars.RETTERM_ISOLATED_CI == '1' && '["self-hosted","linux","x64","retterm-hk-ci-isolated"]' || toJSON(matrix.runner)) }}
 
     env:
       # Use `sccache` for caching compilation artifacts
@@ -292,7 +292,7 @@ jobs:
 
   typos:
     name: Spell check
-    runs-on: ubuntu-latest
+    runs-on: ${{ fromJSON(vars.RETTERM_ISOLATED_CI == '1' && '["self-hosted","linux","x64","retterm-hk-ci-isolated"]' || '"ubuntu-latest"') }}
     steps:
       - name: Checkout repository
         uses: actions/checkout@v4
@@ -302,7 +302,7 @@ jobs:
 
   check-v2:
     name: Check compilation for V2 features
-    runs-on: ubuntu-latest
+    runs-on: ${{ fromJSON(vars.RETTERM_ISOLATED_CI == '1' && '["self-hosted","linux","x64","retterm-hk-ci-isolated"]' || '"ubuntu-latest"') }}
 
     steps:
       - name: Checkout repository
